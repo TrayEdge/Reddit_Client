@@ -1,0 +1,19 @@
+package app.st1ch.redditclient.data.rest;
+
+import app.st1ch.redditclient.data.entity.Parent;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+import rx.Observable;
+
+/**
+ * Created by st1ch on 13.09.2016.
+ */
+public interface RedditApi {
+
+    @GET(".json")
+    Observable<Parent> fetchPosts(
+      @Query("limit") int limit,
+      @Query("q") String q
+    );
+
+}
