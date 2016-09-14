@@ -12,38 +12,18 @@ public class Child {
     private RedditPost data;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    /**
-     * 
-     * @return
-     *     The kind
-     */
     public String getKind() {
         return kind;
     }
 
-    /**
-     * 
-     * @param kind
-     *     The kind
-     */
     public void setKind(String kind) {
         this.kind = kind;
     }
 
-    /**
-     * 
-     * @return
-     *     The data
-     */
     public RedditPost getData() {
         return data;
     }
 
-    /**
-     * 
-     * @param data
-     *     The data
-     */
     public void setData(RedditPost data) {
         this.data = data;
     }
