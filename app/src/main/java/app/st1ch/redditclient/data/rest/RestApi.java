@@ -13,20 +13,25 @@ import rx.Observable;
 public class RestApi {
 
     private final RedditApi api;
+    private String after;
+    private final int limit = 25;
 
     public RestApi(RedditApi api) {
         this.api = api;
     }
 
-    public Observable<List<RedditPost>> fetchPosts(int limit) {
-        return api.fetchPosts(limit, "ios").map(parent -> {
-            List<RedditPost> posts = new ArrayList<>();
-            for (Child child : parent.getData().getChildren()) {
-                posts.add(child.getData());
-            }
+    public Observable<List<RedditPost>> fetchPosts() {
+        return api.fetchPosts(limit, after, "ios")
+                .map(parent -> {
+                    List<RedditPost> posts = new ArrayList<>();
+                    for (Child child : parent.getData().getChildren()) {
+                        posts.add(child.getData());
+                    }
 
-            return posts;
-        });
+                    after = parent.getData().getAfter();
+
+                    return posts;
+                });
     }
 
 }

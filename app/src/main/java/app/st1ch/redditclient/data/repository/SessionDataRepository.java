@@ -1,7 +1,5 @@
 package app.st1ch.redditclient.data.repository;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +23,12 @@ public class SessionDataRepository implements SessionRepository {
     }
 
     @Override
-    public Observable<List<Post>> getPosts(int limit) {
-        return restApi.fetchPosts(limit).map(redditPosts -> {
+    public Observable<List<Post>> getPosts() {
+        return restApi.fetchPosts().map(redditPosts -> {
             List<Post> posts = new ArrayList<>();
             for(RedditPost redditPost: redditPosts){
-                Log.wtf("SDR", "redditPost: " + redditPost.toString());
-                posts.add(abstractMapperFactory.getPostMapper().transform(redditPost));
+                Post post = abstractMapperFactory.getPostMapper().transform(redditPost);
+                posts.add(post);
             }
             return posts;
         });

@@ -10,6 +10,8 @@ import app.st1ch.redditclient.R;
 import app.st1ch.redditclient.RedditApplication;
 import app.st1ch.redditclient.presentation.presenters.MainActivityPresenter;
 import app.st1ch.redditclient.presentation.views.IMainActivityView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements IMainActivityView {
 
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ButterKnife.bind(this);
         RedditApplication.getComponent().inject(this);
 
         presenter.bind(this);
@@ -36,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+    }
+
+    @OnClick(R.id.loadMore_button)
+    public void onLoadClick(){
+        presenter.onLoadMoreButtonClick();
     }
 
     @Override

@@ -33,7 +33,6 @@ public class MainActivityPresenter extends ProgressPresenter<IMainActivityView>
 
     @Override
     public void onResume() {
-        useCase.setLimit(3);
         useCase.execute(getFetchPostsSubscriber());
     }
 
@@ -45,6 +44,11 @@ public class MainActivityPresenter extends ProgressPresenter<IMainActivityView>
     @Override
     public void onDestroy() {
         useCase.unsubscribe();
+    }
+
+    @Override
+    public void onLoadMoreButtonClick() {
+        useCase.execute(getFetchPostsSubscriber());
     }
 
     private BaseProgressSubscriber<List<Post>> getFetchPostsSubscriber(){

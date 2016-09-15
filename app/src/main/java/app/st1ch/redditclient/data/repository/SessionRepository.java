@@ -10,6 +10,6 @@ import rx.Observable;
  */
 public interface SessionRepository {
 
-    Observable<List<Post>> getPosts(int limit);
+    Observable<List<Post>> getPosts();
 
 }
