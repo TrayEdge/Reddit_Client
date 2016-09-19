@@ -10,5 +10,6 @@ import app.st1ch.redditclient.domain.Post;
 public interface IMainActivityView extends IProgressView {
 
     void onListLoad(List<Post> posts);
+    void onNewPostsListLoad(List<Post> posts);
 
 }

@@ -12,5 +12,6 @@ public interface IMainActivityPresenter extends IPresenter<IMainActivityView> {
     void onPause();
     void onDestroy();
     void onLoadMore();
+    void onLoadNewPosts();
 
 }

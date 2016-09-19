@@ -33,4 +33,18 @@ public class SessionDataRepository implements SessionRepository {
             return posts;
         });
     }
+
+    @Override
+    public Observable<List<Post>> getNewPosts() {
+        return restApi.fetchNewPosts().map(redditPosts -> {
+            List<Post> posts = new ArrayList<>();
+            for(RedditPost redditPost: redditPosts){
+                Post post = abstractMapperFactory.getPostMapper().transform(redditPost);
+                posts.add(post);
+            }
+            return posts;
+        });
+    }
+
+
 }

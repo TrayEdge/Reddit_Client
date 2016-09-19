@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
         setUpRecyclerView();
 
         presenter.bind(this);
+        presenter.onCreate();
     }
 
     private void setUpRecyclerView(){
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.onResume();
     }
 
     @Override
@@ -99,7 +99,13 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     }
 
     @Override
+    public void onNewPostsListLoad(List<Post> posts) {
+        postsList.addAll(0, posts);
+        adapter.notifyItemRangeChanged(0, posts.size() - 1);
+    }
+
+    @Override
     public void onRefresh() {
-        presenter.onLoadMore();
+        presenter.onLoadNewPosts();
     }
 }

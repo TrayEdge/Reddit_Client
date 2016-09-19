@@ -14,7 +14,7 @@ public class Data {
     private String modhash;
     private List<Child> children = new ArrayList<Child>();
     private String after;
-    private Object before;
+    private String before;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Facets getFacets() {
@@ -49,11 +49,11 @@ public class Data {
         this.after = after;
     }
 
-    public Object getBefore() {
+    public String getBefore() {
         return before;
     }
 
-    public void setBefore(Object before) {
+    public void setBefore(String before) {
         this.before = before;
     }
 

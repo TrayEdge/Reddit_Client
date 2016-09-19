@@ -12,10 +12,18 @@ public interface RedditApi {
 
     @GET(".json")
     Observable<Parent> fetchPosts(
-      @Query("limit") int limit,
-      @Query("after") String after,
-//      @Query("count") int count,
-      @Query("q") String q
+            @Query("limit") int limit,
+            @Query("after") String after,
+            @Query("count") int count,
+            @Query("q") String q
+    );
+
+    @GET(".json")
+    Observable<Parent> fetchNewPosts(
+            @Query("limit") int limit,
+            @Query("before") String before,
+            @Query("count") int count,
+            @Query("q") String q
     );
 
 }

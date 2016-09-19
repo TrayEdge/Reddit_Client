@@ -11,5 +11,6 @@ import rx.Observable;
 public interface SessionRepository {
 
     Observable<List<Post>> getPosts();
+    Observable<List<Post>> getNewPosts();
 
 }
