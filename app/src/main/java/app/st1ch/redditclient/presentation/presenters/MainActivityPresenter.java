@@ -1,13 +1,11 @@
 package app.st1ch.redditclient.presentation.presenters;
 
-import android.util.Log;
-
 import java.util.List;
 
 import javax.inject.Inject;
 
-import app.st1ch.redditclient.domain.Post;
 import app.st1ch.redditclient.domain.ErrorHandler;
+import app.st1ch.redditclient.domain.Post;
 import app.st1ch.redditclient.domain.subscribers.BaseProgressSubscriber;
 import app.st1ch.redditclient.domain.usecases.FetchPostsUseCase;
 import app.st1ch.redditclient.presentation.views.IMainActivityView;
@@ -47,7 +45,7 @@ public class MainActivityPresenter extends ProgressPresenter<IMainActivityView>
     }
 
     @Override
-    public void onLoadMoreButtonClick() {
+    public void onLoadMore() {
         useCase.execute(getFetchPostsSubscriber());
     }
 
@@ -56,13 +54,18 @@ public class MainActivityPresenter extends ProgressPresenter<IMainActivityView>
             @Override
             public void onNext(List<Post> posts) {
                 super.onNext(posts);
-                for(Post post: posts){
-                    Log.wtf("onNext", String.valueOf(post));
+                IMainActivityView view = getView();
+                if (view != null) {
+                    view.onListLoad(posts);
                 }
+//                for(Post post: posts){
+//                    Log.wtf("onNext", String.valueOf(post));
+//                }
 //                if (getView() != null) {
 //                    getView().showToastMessage(posts.toString());
 //                }
             }
         };
     }
+
 }
