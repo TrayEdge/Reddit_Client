@@ -1,9 +1,7 @@
 package app.st1ch.redditclient.data.rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import app.st1ch.redditclient.data.entity.Child;
 import app.st1ch.redditclient.data.entity.Data;
 import app.st1ch.redditclient.data.entity.RedditPost;
 import rx.Observable;
@@ -18,6 +16,8 @@ public class RestApi {
     private String before;
     private final int limit = 25;
     private final int count = 25;
+    private final String q = "ios";
+
     private boolean isFirstFetch = true;
 
     public RestApi(RedditApi api) {
@@ -25,40 +25,34 @@ public class RestApi {
     }
 
     public Observable<List<RedditPost>> fetchPosts() {
-        return api.fetchPosts(limit, after, count, "ios")
-                .map(parent -> {
-                    List<RedditPost> posts = new ArrayList<>();
-                    Data data = parent.getData();
-                    for (Child child : data.getChildren()) {
-                        posts.add(child.getData());
-                    }
+        return api.fetchPosts(limit, after, count, q)
+                .concatMap(parent -> {
+                            Data data = parent.getData();
+                            after = data.getAfter();
+                            if (isFirstFetch) {
+                                before = data.getBefore();
+                                isFirstFetch = false;
+                            }
+                            return Observable.from(data.getChildren())
+                                    .concatMap(child1 -> Observable.just(child1.getData()).toList());
 
-                    after = data.getAfter();
-                    if(isFirstFetch){
-                        before = data.getBefore();
-                        isFirstFetch = false;
-                    }
-
-                    return posts;
-                });
+                        }
+                );
     }
 
     public Observable<List<RedditPost>> fetchNewPosts() {
-        return api.fetchNewPosts(limit, before, count, "ios")
-                .map(parent -> {
-                    List<RedditPost> posts = new ArrayList<>();
-                    Data data = parent.getData();
-                    for (Child child : data.getChildren()) {
-                        posts.add(child.getData());
-                    }
-
-                    String dataBefore = data.getBefore();
-                    if(dataBefore != null) {
-                        before = dataBefore;
-                    }
-
-                    return posts;
-                });
+        return api.fetchNewPosts(limit, before, count, q)
+                .concatMap(parent -> {
+                            Data data = parent.getData();
+                            after = data.getAfter();
+                            if (isFirstFetch) {
+                                before = data.getBefore();
+                                isFirstFetch = false;
+                            }
+                            return Observable.from(data.getChildren());
+                        }
+                )
+                .concatMap(child1 -> Observable.just(child1.getData()).toList());
     }
 
 }

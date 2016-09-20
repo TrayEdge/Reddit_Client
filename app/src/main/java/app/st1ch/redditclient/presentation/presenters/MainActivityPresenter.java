@@ -43,6 +43,7 @@ public class MainActivityPresenter extends ProgressPresenter<IMainActivityView>
     @Override
     public void onDestroy() {
         useCase.unsubscribe();
+        unbind();
     }
 
     @Override

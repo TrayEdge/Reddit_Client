@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
 
-//    private List<Post> postsList;
     private PostsAdapter adapter;
 
     @Override
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
         RedditApplication.getComponent().inject(this);
 
         refreshLayout.setOnRefreshListener(this);
-//        postsList = new ArrayList<>();
         List<Post> postsList = RedditApplication.getInstance().getPostsList();
         adapter = new PostsAdapter(postsList);
         setUpRecyclerView();

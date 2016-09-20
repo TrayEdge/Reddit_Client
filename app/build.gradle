@@ -25,14 +25,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-//    productFlavors {
-//        prod {
-//
-//        }
-//        mock {
-//            applicationId "app.st1ch.frontent_android.mock"
-//        }
-//    }
+    productFlavors {
+        prod {
+
+        }
+        mock {
+            applicationId "app.st1ch.redditclient.mock"
+        }
+    }
 }
 
 dependencies {

@@ -1,9 +1,8 @@
 package app.st1ch.redditclient.data.repository;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import app.st1ch.redditclient.data.entity.RedditPost;
 import app.st1ch.redditclient.data.mappers.AbstractMapperFactory;
 import app.st1ch.redditclient.data.rest.RestApi;
 import app.st1ch.redditclient.domain.Post;
@@ -17,33 +16,40 @@ public class SessionDataRepository implements SessionRepository {
     private final AbstractMapperFactory abstractMapperFactory;
     private RestApi restApi;
 
-    public SessionDataRepository(RestApi restApi, AbstractMapperFactory abstractMapperFactory){
+    public SessionDataRepository(RestApi restApi, AbstractMapperFactory abstractMapperFactory) {
         this.restApi = restApi;
         this.abstractMapperFactory = abstractMapperFactory;
     }
 
     @Override
     public Observable<List<Post>> getPosts() {
-        return restApi.fetchPosts().map(redditPosts -> {
-            List<Post> posts = new ArrayList<>();
-            for(RedditPost redditPost: redditPosts){
-                Post post = abstractMapperFactory.getPostMapper().transform(redditPost);
-                posts.add(post);
-            }
-            return posts;
-        });
+        return Observable.defer(() -> restApi.fetchPosts()
+                .concatMap(Observable::from)
+                .map(redditPost -> abstractMapperFactory.getPostMapper()
+                        .transform(redditPost)).toList())
+                .retryWhen(errors -> errors
+                        .flatMap(error -> {
+                            if (error instanceof IOException) {
+                                return Observable.just(null);
+                            }
+                            return Observable.error(error);
+                        }));
     }
 
     @Override
     public Observable<List<Post>> getNewPosts() {
-        return restApi.fetchNewPosts().map(redditPosts -> {
-            List<Post> posts = new ArrayList<>();
-            for(RedditPost redditPost: redditPosts){
-                Post post = abstractMapperFactory.getPostMapper().transform(redditPost);
-                posts.add(post);
-            }
-            return posts;
-        });
+        return Observable.defer(() -> restApi.fetchNewPosts()
+                .concatMap(Observable::from)
+                .map(redditPost -> abstractMapperFactory.getPostMapper()
+                        .transform(redditPost)).toList())
+                .retryWhen(errors -> errors
+                        .flatMap(error -> {
+                            if (error instanceof IOException) {
+                                return Observable.just(null);
+                            }
+                            return Observable.error(error);
+                        }))
+                ;
     }
 
 
