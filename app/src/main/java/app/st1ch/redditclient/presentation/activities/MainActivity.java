@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
 
-    private List<Post> postsList;
+//    private List<Post> postsList;
     private PostsAdapter adapter;
 
     @Override
@@ -44,12 +43,16 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
         RedditApplication.getComponent().inject(this);
 
         refreshLayout.setOnRefreshListener(this);
-        postsList = new ArrayList<>();
+//        postsList = new ArrayList<>();
+        List<Post> postsList = RedditApplication.getInstance().getPostsList();
         adapter = new PostsAdapter(postsList);
         setUpRecyclerView();
 
         presenter.bind(this);
-        presenter.onCreate();
+
+        if(postsList.isEmpty()){
+            presenter.onLoadMore();
+        }
     }
 
     private void setUpRecyclerView(){
@@ -94,13 +97,13 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
     @Override
     public void onListLoad(List<Post> posts) {
         int curSize = adapter.getItemCount();
-        postsList.addAll(posts);
-        adapter.notifyItemRangeChanged(curSize, postsList.size() - 1);
+        RedditApplication.getInstance().getPostsList().addAll(posts);
+        adapter.notifyItemRangeChanged(curSize, RedditApplication.getInstance().getPostsList().size() - 1);
     }
 
     @Override
     public void onNewPostsListLoad(List<Post> posts) {
-        postsList.addAll(0, posts);
+        RedditApplication.getInstance().getPostsList().addAll(0, posts);
         adapter.notifyItemRangeChanged(0, posts.size() - 1);
     }
 

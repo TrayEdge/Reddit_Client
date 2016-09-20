@@ -18,6 +18,7 @@ public class RestApi {
     private String before;
     private final int limit = 25;
     private final int count = 25;
+    private boolean isFirstFetch = true;
 
     public RestApi(RedditApi api) {
         this.api = api;
@@ -33,7 +34,10 @@ public class RestApi {
                     }
 
                     after = data.getAfter();
-                    before = data.getBefore();
+                    if(isFirstFetch){
+                        before = data.getBefore();
+                        isFirstFetch = false;
+                    }
 
                     return posts;
                 });
@@ -48,8 +52,10 @@ public class RestApi {
                         posts.add(child.getData());
                     }
 
-                    after = data.getAfter();
-                    before = data.getBefore();
+                    String dataBefore = data.getBefore();
+                    if(dataBefore != null) {
+                        before = dataBefore;
+                    }
 
                     return posts;
                 });

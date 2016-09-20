@@ -30,7 +30,6 @@ public class MainActivityPresenter extends ProgressPresenter<IMainActivityView>
 
     @Override
     public void onCreate() {
-        useCase.execute(getFetchPostsSubscriber());
     }
 
     @Override
