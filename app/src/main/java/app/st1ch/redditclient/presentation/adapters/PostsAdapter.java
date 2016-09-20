@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
 
-    List<Post> postsList;
+    private List<Post> postsList;
 
     public PostsAdapter(List<Post> postsList) {
         this.postsList = postsList;
@@ -50,7 +50,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
 
     @Override
     public int getItemCount() {
-        return postsList.size();
+        if(postsList != null){
+            return postsList.size();
+        }
+        return 0;
     }
 
     public class PostsViewHolder extends RecyclerView.ViewHolder{

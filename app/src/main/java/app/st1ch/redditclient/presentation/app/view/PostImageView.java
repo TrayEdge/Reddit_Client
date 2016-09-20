@@ -1,4 +1,4 @@
-package app.st1ch.redditclient.presentation.views.app;
+package app.st1ch.redditclient.presentation.app.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

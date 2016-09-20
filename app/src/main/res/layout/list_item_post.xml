@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <app.st1ch.redditclient.presentation.views.app.PostImageView
+    <app.st1ch.redditclient.presentation.app.PostImageView
         android:id="@+id/post_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

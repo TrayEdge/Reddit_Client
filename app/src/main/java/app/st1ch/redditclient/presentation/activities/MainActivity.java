@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivityView
 
     @Override
     public void showToastMessage(String text) {
-        Log.wtf("MainActivity", "showToastMessage()");
+        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override
